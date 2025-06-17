@@ -1,0 +1,43 @@
+import React from 'react';
+import { useTranslation } from 'react-i18next';
+import { NavLink } from 'react-router-dom';
+import { BarChart3, TrendingUp, History, Settings } from 'lucide-react';
+
+const Navigation: React.FC = () => {
+  const { t } = useTranslation();
+
+  const navItems = [
+    { to: '/app/dashboard', icon: BarChart3, label: t('dashboard') },
+    { to: '/app/predictions', icon: TrendingUp, label: t('predictions') },
+    { to: '/app/history', icon: History, label: t('history') },
+    { to: '/app/settings', icon: Settings, label: t('settings') },
+  ];
+
+  return (
+    <nav className="bg-white border-r border-amber-100 w-64 min-h-screen">
+      <div className="p-6">
+        <ul className="space-y-2">
+          {navItems.map(({ to, icon: Icon, label }) => (
+            <li key={to}>
+              <NavLink
+                to={to}
+                className={({ isActive }) =>
+                  `flex items-center space-x-3 px-4 py-3 rounded-xl transition-all duration-200 ${
+                    isActive
+                      ? 'bg-gradient-to-r from-amber-50 to-orange-50 text-orange-700 shadow-sm border border-orange-200'
+                      : 'text-gray-600 hover:bg-gray-50 hover:text-gray-900'
+                  }`
+                }
+              >
+                <Icon className="h-5 w-5" />
+                <span className="font-medium">{label}</span>
+              </NavLink>
+            </li>
+          ))}
+        </ul>
+      </div>
+    </nav>
+  );
+};
+
+export default Navigation;
