@@ -21,11 +21,11 @@ import {
 } from 'lucide-react';
 import { useLanguage } from '../contexts/LanguageContext';
 
+
 const heroBackgrounds = [
   '/images/1.jpg',
   '/images/2.jpg',
   '/images/3.jpg',
-  '/images/4.jpg',
   '/images/5.jpg',
   '/images/6.jpg',
 ];
@@ -127,15 +127,21 @@ const LandingPage: React.FC = () => {
       <header className="bg-white/80 backdrop-blur-md border-b border-amber-100 sticky top-0 z-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center h-16">
-            <div className="flex items-center space-x-3">
-              <div className="bg-gradient-to-br from-amber-400 to-orange-500 p-2 rounded-xl">
-                <Croissant className="h-6 w-6 text-white" />
-              </div>
-              <div>
-                <h1 className="font-pacifico text-xl font-bold text-gray-900">Nom Pung Meaw</h1>
-                <p className="text-xs text-gray-500">Smart Sales Prediction</p>
-              </div>
+           <div className="flex items-center space-x-3">
+            <div className="p-2 rounded-xl">
+              <img 
+                src="/images/nompangmaeo.png" 
+                alt="Nom Pung Meaw Logo" 
+                className="h-12 w-12 object-contain rounded-lg"
+              />
             </div>
+            <div>
+              <h1 className="font-prompt text-xl font-bold text-gray-900">Nom Pang Maeo</h1>
+              <p className="text-xs text-gray-500">Smart Sales Prediction</p>
+            </div>
+          </div>
+
+
 
             <div className="flex items-center space-x-4">
               {/* Language Toggle */}
@@ -175,63 +181,65 @@ const LandingPage: React.FC = () => {
       </header>
 
       {/* Hero Section */}
-      <section
-      className="relative py-20 transition-all duration-1000"
-      style={{
-        backgroundImage: `url(${heroBackgrounds[bgIndex]})`,
-        backgroundSize: 'cover',
-        backgroundPosition: 'center',
-      }}
-    >
-      <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-       <div className="text-center overflow-visible pb-10">
-         <h1
-          className="
-            font-pacifico
-            text-5xl md:text-6xl
-            font-bold
-            mb-6
-            leading-relaxed
-            bg-gradient-to-r
-            from-red-600
-            via-orange-300
-            to-red-500
-            bg-clip-text
-            text-transparent
-          "
+     <section
+  className="relative py-20 transition-all duration-1000"
+  style={{
+    backgroundImage: `url(${heroBackgrounds[bgIndex]})`,
+    backgroundSize: 'cover',
+    backgroundPosition: 'center',
+  }}
+>
+  {/* ▻ overlay สีดำบาง ๆ คลุมเต็มรูป เพื่อเพิ่ม contrast */}
+  <div className="absolute inset-0 bg-black/10"></div>
+
+  <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div className="mx-auto max-w-3xl rounded-3xl bg-white/10 backdrop-blur-lg p-10 md:p-14 flex flex-col justify-center items-center text-center min-h-[250px]">
+      <h1
+        className="
+          relative
+          font-pacifico
+          text-5xl md:text-6xl
+          font-bold
+          mb-6
+          leading-relaxed
+          bg-gradient-to-r
+          from-red-500 via-orange-300 to-red-500
+          bg-clip-text text-transparent
+        "
           style={{ minHeight: '6rem' }}
-        >
-          {language === 'th' ? 'หนมปังแมว' : 'Nom Pung Meaw'}
-        </h1>
+      >
+        <span className={language === 'th' ? 'font-anuphan' : 'font-pacifico'}>
+          {language === 'th' ? 'หนมปังแมว' : 'Nom Pang Maeo'}
+        </span>
+      </h1>
 
-
-          <p className="text-xl text-green-100 mb-8 max-w-3xl mx-auto leading-relaxed">
-            {language === 'th'
-              ? 'ลดของเสีย เพิ่มกำไร และเพิ่มประสิทธิภาพการผลิตด้วยระบบพยากรณ์ยอดขายอัจฉริยะของเรา'
-              : 'Reduce waste, increase profits, and optimize your production with our intelligent sales forecasting system.'}
-          </p>
+      <p className="font-anuphan text-xl text-amber-100 mb-8 leading-relaxed">
+        {language === 'th'
+          ? 'ลดของเสีย เพิ่มกำไร และเพิ่มประสิทธิภาพการผลิตด้วยระบบพยากรณ์ยอดขายอัจฉริยะของเรา'
+          : 'Reduce waste, increase profits, and optimize your production with our intelligent sales forecasting system.'}
+      </p>
 
             <div className="flex flex-col sm:flex-row gap-4 justify-center items-center mb-12">
               <Link
                 to="/auth"
-                className="bg-gradient-to-r from-orange-500 to-amber-500 text-white px-8 py-4 rounded-xl font-semibold text-lg hover:from-orange-600 hover:to-amber-600 transition-all duration-200 flex items-center space-x-2 shadow-lg hover:shadow-xl transform hover:-translate-y-1"
+                className="font-anuphan bg-gradient-to-r from-orange-500 to-amber-500 text-white px-8 py-4 rounded-xl font-semibold text-lg hover:from-orange-600 hover:to-amber-600 transition-all duration-200 flex items-center space-x-2 shadow-lg hover:shadow-xl transform hover:-translate-y-1"
               >
                 <span>{language === 'th' ? 'เริ่มใช้งานฟรี' : 'Start Free Trial'}</span>
                 <Zap className="h-5 w-5" />
               </Link>
               
-              <button className="border-2 border-gray-300 text-green-200 px-8 py-4 rounded-xl font-semibold text-lg hover:border-orange-300 hover:text-orange-400 transition-all duration-200 flex items-center space-x-2">
+              <button className="font-anuphan border-2 border-orange-100 text-amber-100 px-8 py-4 rounded-xl font-semibold text-lg hover:border-orange-300 hover:text-orange-400 transition-all duration-200 flex items-center space-x-2">
                 <span>{language === 'th' ? 'ดูการสาธิต' : 'Watch Demo'}</span>
                 <ChevronRight className="h-5 w-5" />
               </button>
             </div>
 
             {/* Stats */}
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-8 max-w-4xl mx-auto">
+            <div className="font-anuphan grid grid-cols-2 md:grid-cols-4 gap-8 max-w-4xl mx-auto">
               {stats.map((stat, index) => (
                 <div key={index} className="text-center">
                   <div className="text-3xl font-bold text-orange-300 mb-2">{stat.number}</div>
-                  <div className="text-green-100 text-sm">
+                  <div className="text-amber-100 text-sm">
                     {language === 'th' ? stat.labelTh : stat.labelEn}
                   </div>
                 </div>
