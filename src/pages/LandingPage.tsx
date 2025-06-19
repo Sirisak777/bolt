@@ -203,7 +203,7 @@ const LandingPage: React.FC = () => {
           mb-6
           leading-relaxed
           bg-gradient-to-r
-          from-red-500 via-orange-300 to-red-500
+          from-red-400 via-orange-300 to-red-400
           bg-clip-text text-transparent
         "
           style={{ minHeight: '6rem' }}
@@ -238,7 +238,7 @@ const LandingPage: React.FC = () => {
             <div className="font-anuphan grid grid-cols-2 md:grid-cols-4 gap-8 max-w-4xl mx-auto">
               {stats.map((stat, index) => (
                 <div key={index} className="text-center">
-                  <div className="text-3xl font-bold text-orange-300 mb-2">{stat.number}</div>
+                  <div className="text-3xl font-bold text-orange-400 mb-2">{stat.number}</div>
                   <div className="text-amber-100 text-sm">
                     {language === 'th' ? stat.labelTh : stat.labelEn}
                   </div>
