@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Link } from 'react-router-dom';
 import { 
@@ -21,9 +21,19 @@ import {
 } from 'lucide-react';
 import { useLanguage } from '../contexts/LanguageContext';
 
+const heroBackgrounds = [
+  '/images/1.jpg',
+  '/images/2.jpg',
+  '/images/3.jpg',
+  '/images/4.jpg',
+  '/images/5.jpg',
+  '/images/6.jpg',
+];
+
 const LandingPage: React.FC = () => {
   const { t } = useTranslation();
   const { language, setLanguage } = useLanguage();
+  const [bgIndex, setBgIndex] = useState(0);
 
   const features = [
     {
@@ -104,6 +114,13 @@ const LandingPage: React.FC = () => {
     { number: '24/7', labelEn: 'Support Available', labelTh: 'บริการสนับสนุน' }
   ];
 
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setBgIndex((prev) => (prev + 1) % heroBackgrounds.length);
+    }, 5000);
+    return () => clearInterval(interval);
+  }, []);
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-amber-50 via-orange-50 to-yellow-50">
       {/* Header */}
@@ -115,7 +132,7 @@ const LandingPage: React.FC = () => {
                 <Croissant className="h-6 w-6 text-white" />
               </div>
               <div>
-                <h1 className="text-xl font-bold text-gray-900">BakeryAI</h1>
+                <h1 className="font-pacifico text-xl font-bold text-gray-900">Nom Pung Meaw</h1>
                 <p className="text-xs text-gray-500">Smart Sales Prediction</p>
               </div>
             </div>
@@ -158,40 +175,41 @@ const LandingPage: React.FC = () => {
       </header>
 
       {/* Hero Section */}
-      <section className="relative py-20 overflow-hidden">
-        {/* Background decoration */}
-        <div className="absolute inset-0">
-          <div className="absolute top-1/4 left-1/4 w-32 h-32 bg-orange-200 rounded-full opacity-20 animate-pulse"></div>
-          <div className="absolute bottom-1/4 right-1/4 w-24 h-24 bg-amber-200 rounded-full opacity-30 animate-bounce"></div>
-          <div className="absolute top-3/4 left-1/3 w-16 h-16 bg-yellow-200 rounded-full opacity-25"></div>
-        </div>
+      <section
+      className="relative py-20 transition-all duration-1000"
+      style={{
+        backgroundImage: `url(${heroBackgrounds[bgIndex]})`,
+        backgroundSize: 'cover',
+        backgroundPosition: 'center',
+      }}
+    >
+      <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+       <div className="text-center overflow-visible pb-10">
+         <h1
+          className="
+            font-pacifico
+            text-5xl md:text-6xl
+            font-bold
+            mb-6
+            leading-relaxed
+            bg-gradient-to-r
+            from-red-600
+            via-orange-300
+            to-red-500
+            bg-clip-text
+            text-transparent
+          "
+          style={{ minHeight: '6rem' }}
+        >
+          {language === 'th' ? 'หนมปังแมว' : 'Nom Pung Meaw'}
+        </h1>
 
-        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center">
-            <h1 className="text-5xl md:text-6xl font-bold text-gray-900 mb-6 leading-tight">
-              {language === 'th' ? (
-                <>
-                  พยากรณ์ยอดขาย<br />
-                  <span className="bg-gradient-to-r from-orange-500 to-amber-500 bg-clip-text text-transparent">
-                    ด้วย AI
-                  </span>
-                </>
-              ) : (
-                <>
-                  Predict Your Bakery Sales<br />
-                  <span className="bg-gradient-to-r from-orange-500 to-amber-500 bg-clip-text text-transparent">
-                    with AI
-                  </span>
-                </>
-              )}
-            </h1>
-            
-            <p className="text-xl text-gray-600 mb-8 max-w-3xl mx-auto leading-relaxed">
-              {language === 'th' 
-                ? 'ลดของเสีย เพิ่มกำไร และเพิ่มประสิทธิภาพการผลิตด้วยระบบพยากรณ์ยอดขายอัจฉริยะของเรา'
-                : 'Reduce waste, increase profits, and optimize your production with our intelligent sales forecasting system.'
-              }
-            </p>
+
+          <p className="text-xl text-green-100 mb-8 max-w-3xl mx-auto leading-relaxed">
+            {language === 'th'
+              ? 'ลดของเสีย เพิ่มกำไร และเพิ่มประสิทธิภาพการผลิตด้วยระบบพยากรณ์ยอดขายอัจฉริยะของเรา'
+              : 'Reduce waste, increase profits, and optimize your production with our intelligent sales forecasting system.'}
+          </p>
 
             <div className="flex flex-col sm:flex-row gap-4 justify-center items-center mb-12">
               <Link
@@ -202,7 +220,7 @@ const LandingPage: React.FC = () => {
                 <Zap className="h-5 w-5" />
               </Link>
               
-              <button className="border-2 border-gray-300 text-gray-700 px-8 py-4 rounded-xl font-semibold text-lg hover:border-orange-500 hover:text-orange-600 transition-all duration-200 flex items-center space-x-2">
+              <button className="border-2 border-gray-300 text-green-200 px-8 py-4 rounded-xl font-semibold text-lg hover:border-orange-300 hover:text-orange-400 transition-all duration-200 flex items-center space-x-2">
                 <span>{language === 'th' ? 'ดูการสาธิต' : 'Watch Demo'}</span>
                 <ChevronRight className="h-5 w-5" />
               </button>
@@ -212,8 +230,8 @@ const LandingPage: React.FC = () => {
             <div className="grid grid-cols-2 md:grid-cols-4 gap-8 max-w-4xl mx-auto">
               {stats.map((stat, index) => (
                 <div key={index} className="text-center">
-                  <div className="text-3xl font-bold text-orange-600 mb-2">{stat.number}</div>
-                  <div className="text-gray-600 text-sm">
+                  <div className="text-3xl font-bold text-orange-300 mb-2">{stat.number}</div>
+                  <div className="text-green-100 text-sm">
                     {language === 'th' ? stat.labelTh : stat.labelEn}
                   </div>
                 </div>

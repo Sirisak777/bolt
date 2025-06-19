@@ -17,7 +17,7 @@ const AuthPage: React.FC = () => {
 
       <div className="relative z-10 w-full max-w-6xl flex rounded-3xl shadow-2xl overflow-hidden bg-white">
         {/* Left side - Branding */}
-        <div className="hidden lg:flex lg:w-1/2 bg-gradient-to-br from-orange-500 via-amber-500 to-yellow-400 p-12 flex-col justify-center relative">
+        <div className="flex lg:w-1/2 bg-gradient-to-br from-orange-500 via-amber-500 to-yellow-400 p-12 flex-col justify-center relative">
           <div className="absolute inset-0 bg-black opacity-10"></div>
           <div className="relative z-10">
             <div className="flex items-center space-x-3 mb-8">
@@ -28,7 +28,7 @@ const AuthPage: React.FC = () => {
             </div>
             
             <h2 className="text-4xl font-bold text-white mb-6 leading-tight">
-              Predict Your Bakery Sales with AI
+              Nom Pang Meaw
             </h2>
             
             <p className="text-xl text-white opacity-90 mb-8 leading-relaxed">
