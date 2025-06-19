@@ -1,9 +1,8 @@
 import React, { useState } from 'react';
-import { useTranslation } from 'react-i18next';
-import { TrendingUp, Target, Loader2, CheckCircle } from 'lucide-react';
-import { useAuth } from '../contexts/AuthContext';
 import axios from 'axios';
+import { Loader2, CheckCircle, TrendingUp, Target } from 'lucide-react';
 import LoadingSpinner from '../components/common/LoadingSpinner';
+import { useTranslation } from 'react-i18next';
 
 const BREAD_OPTIONS = [
   '12 MACARON', 'ARMORICAIN', 'ARTICLE 295', 'BAGUETTE', 'BAGUETTE APERO', 'BAGUETTE GRAINE', 'BANETTE', 
@@ -31,194 +30,143 @@ const BREAD_OPTIONS = [
   'TULIPE', 'VIENNOISE', 'VIK BREAD'
 ];
 
-const DAY_OPTIONS = [
-  'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'
+const DAYS_OF_WEEK = [
+  { th: 'จันทร์', en: 'Monday' },
+  { th: 'อังคาร', en: 'Tuesday' },
+  { th: 'พุธ', en: 'Wednesday' },
+  { th: 'พฤหัสบดี', en: 'Thursday' },
+  { th: 'ศุกร์', en: 'Friday' },
+  { th: 'เสาร์', en: 'Saturday' },
+  { th: 'อาทิตย์', en: 'Sunday' }
 ];
 
 const Predictions: React.FC = () => {
-  const { t } = useTranslation();
-  const { user } = useAuth();
-
-  const [selectedBread, setSelectedBread] = useState('');
-  const [lastDayQuantity, setLastDayQuantity] = useState('');
-  const [selectedDay, setSelectedDay] = useState('');
-  const [isLoading, setIsLoading] = useState(false);
+  const { t, i18n } = useTranslation();
+  const [menuName, setMenuName] = useState('');
+  const [lastQuantity, setLastQuantity] = useState('');
+  const [dayOfWeek, setDayOfWeek] = useState('');
   const [prediction, setPrediction] = useState<number | null>(null);
+  const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
+  const validate = () => {
+    if (!menuName || !lastQuantity || !dayOfWeek) {
+      setError(t('fillAllFields', 'กรุณากรอกข้อมูลให้ครบถ้วน'));
+      return false;
+    }
+    if (isNaN(Number(lastQuantity))) {
+      setError(t('quantityMustBeNumber', 'จำนวนเมื่อวานต้องเป็นตัวเลข'));
+      return false;
+    }
+    return true;
+  };
+
   const handlePredict = async () => {
-    if (!selectedBread || !lastDayQuantity || selectedDay === '') {
-      setError('Please fill in all fields.');
-      return;
-    }
-
-    if (!user) {
-      setError('User not authenticated.');
-      return;
-    }
-
+    if (!validate()) return;
     setIsLoading(true);
     setError(null);
     setPrediction(null);
 
     try {
       const payload = {
-        menu_name: selectedBread,
-        last_day_quantity: parseInt(lastDayQuantity),
-        today_day_of_week: parseInt(selectedDay),
+        menu_name: menuName,
+        last_day_quantity: Number(lastQuantity),
+        today_day_of_week: Number(dayOfWeek),
       };
 
-      console.log('Sending prediction request:', payload);
+      const response = await axios.post('https://docker-api-bakery.onrender.com/predict/', payload, {
+        headers: { 'Content-Type': 'application/json' },
+      });
 
-      // เปลี่ยนจาก full URL เป็น proxy path
-      const response = await axios.post(
-        '/api/predict/',
-        payload,
-        { 
-          headers: { 'Content-Type': 'application/json' },
-          timeout: 30000 // เพิ่ม timeout 30 วินาที
-        }
-      );
-
-      console.log('Prediction response:', response.data);
       setPrediction(response.data.predicted_quantity);
-    } catch (err: any) {
-      console.error('Prediction error:', err);
-      
-      // แสดง error message ที่ละเอียดกว่า
-      if (err.response) {
-        setError(`API Error: ${err.response.status} - ${err.response.data?.detail || 'Unknown error'}`);
-      } else if (err.request) {
-        setError('Network error: Unable to reach the prediction server. Please try again.');
-      } else {
-        setError('Failed to fetch prediction. Please try again.');
-      }
+    } catch (err) {
+      console.error(err);
+      setError(t('apiError', 'เกิดข้อผิดพลาดในการเรียก API'));
     } finally {
       setIsLoading(false);
     }
   };
 
   return (
-    <div className="max-w-5xl mx-auto p-6 space-y-8">
-      <header className="bg-white p-6 rounded-xl shadow-md border border-gray-200">
-        <div className="flex items-center gap-3">
-          <TrendingUp className="w-7 h-7 text-indigo-600" />
-          <h1 className="text-3xl font-bold text-gray-900">{t('predictSales', 'Predict Sales')}</h1>
-        </div>
-        <p className="mt-2 text-gray-600">
-          {t('predictSalesDescription', "Use AI to predict tomorrow's bread sales and optimize production.")}
-        </p>
-      </header>
+    <div className="max-w-xl mx-auto mt-40 p-6 bg-white rounded-lg shadow-md space-y-6">
+      <div className="flex items-center gap-2 text-xl font-bold text-indigo-700">
+        <TrendingUp className="w-6 h-6" />
+        {t('predictSales', 'พยากรณ์ยอดผลิตขนมปัง')}
+      </div>
 
-      <section className="bg-white p-6 rounded-xl shadow-md border border-gray-200">
-        <h2 className="text-2xl font-semibold mb-4">{t('makePrediction', 'Make a Prediction')}</h2>
-
-        <div className="space-y-4">
-          {/* Bread */}
-          <div>
-            <label htmlFor="bread-select" className="block text-gray-700 font-medium mb-1">
-              Bread Product
-            </label>
-            <select
-              id="bread-select"
-              value={selectedBread}
-              onChange={(e) => setSelectedBread(e.target.value)}
-              className="w-full border border-gray-300 rounded-md px-4 py-3"
-            >
-              <option value="">Choose a bread</option>
-              {BREAD_OPTIONS.map((bread, idx) => (
-                <option key={idx} value={bread}>{bread}</option>
-              ))}
-            </select>
-          </div>
-
-          {/* Last Day Quantity */}
-          <div>
-            <label htmlFor="quantity-input" className="block text-gray-700 font-medium mb-1">
-              Quantity Sold Yesterday
-            </label>
-            <input
-              id="quantity-input"
-              type="number"
-              value={lastDayQuantity}
-              onChange={(e) => setLastDayQuantity(e.target.value)}
-              placeholder="e.g. 12"
-              className="w-full border border-gray-300 rounded-md px-4 py-3"
-            />
-          </div>
-
-          {/* Day of Week */}
-          <div>
-            <label htmlFor="day-select" className="block text-gray-700 font-medium mb-1">
-              Today (Day of Week)
-            </label>
-            <select
-              id="day-select"
-              value={selectedDay}
-              onChange={(e) => setSelectedDay(e.target.value)}
-              className="w-full border border-gray-300 rounded-md px-4 py-3"
-            >
-              <option value="">Choose a day</option>
-              {DAY_OPTIONS.map((day, index) => (
-                <option key={index} value={index.toString()}>
-                  {day} ({index} = {['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'][index]})
-                </option>
-              ))}
-            </select>
-          </div>
-
-          {error && (
-            <div className="bg-red-50 border border-red-300 rounded-md p-3">
-              <p className="text-red-600 text-sm">{error}</p>
-            </div>
-          )}
-
-          <button
-            onClick={handlePredict}
-            disabled={isLoading}
-            className="mt-4 w-full bg-indigo-600 text-white py-3 rounded-md font-semibold hover:bg-indigo-700 disabled:opacity-50 flex justify-center items-center gap-2"
+      <div className="space-y-4">
+        <label className="block">
+          <span className="text-gray-700 font-medium">{t('selectProduct', 'ชื่อขนมปัง')}</span>
+          <select
+            value={menuName}
+            onChange={(e) => setMenuName(e.target.value)}
+            className="w-full mt-1 border px-3 py-2 rounded-md"
           >
-            {isLoading ? (
-              <>
-                <Loader2 className="animate-spin w-5 h-5" />
-                Loading...
-              </>
-            ) : (
-              <>
-                <Target className="w-5 h-5" />
-                Predict
-              </>
-            )}
-          </button>
+            <option value="">-- {t('chooseOption', 'เลือก')} --</option>
+            {BREAD_OPTIONS.map((item) => (
+              <option key={item} value={item}>{item}</option>
+            ))}
+          </select>
+        </label>
+
+        <label className="block">
+          <span className="text-gray-700 font-medium">{t('lastDayQuantity', 'จำนวนที่ขายเมื่อวาน')}</span>
+          <input
+            type="number"
+            value={lastQuantity}
+            onChange={(e) => setLastQuantity(e.target.value)}
+            placeholder={t('enterNumber', 'ใส่ตัวเลข')}
+            className="w-full mt-1 border px-3 py-2 rounded-md"
+          />
+        </label>
+
+        <label className="block">
+          <span className="text-gray-700 font-medium">{t('dayOfWeek', 'วันของสัปดาห์')}</span>
+          <select
+            value={dayOfWeek}
+            onChange={(e) => setDayOfWeek(e.target.value)}
+            className="w-full mt-1 border px-3 py-2 rounded-md"
+          >
+            <option value="">-- {t('chooseOption', 'เลือก')} --</option>
+            {DAYS_OF_WEEK.map((day, index) => (
+              <option key={index} value={index}>
+                {i18n.language === 'th' ? day.th : day.en}
+              </option>
+            ))}
+          </select>
+        </label>
+
+        {error && <div className="text-red-600 font-medium">{error}</div>}
+
+        <button
+          onClick={handlePredict}
+          disabled={isLoading}
+          className="w-full bg-indigo-600 text-white py-2 rounded-md hover:bg-indigo-700 flex justify-center items-center gap-2"
+        >
+          {isLoading ? (
+            <>
+              <Loader2 className="w-5 h-5 animate-spin" />
+              {t('loading', 'กำลังประมวลผล...')}
+            </>
+          ) : (
+            <>
+              <Target className="w-5 h-5" />
+              {t('makePrediction', 'ทำนายยอดผลิต')}
+            </>
+          )}
+        </button>
+      </div>
+
+      {prediction !== null && !isLoading && (
+        <div className="bg-green-50 border border-green-300 p-6 rounded-lg text-center">
+          <CheckCircle className="mx-auto text-green-600 w-8 h-8 mb-2" />
+          <p className="text-2xl font-bold text-green-800">
+            {t('shouldProduce', 'ควรผลิต')} {prediction} {t('pieces', 'ชิ้น')}
+          </p>
         </div>
-      </section>
+      )}
 
-      {/* Result */}
-      <section className="bg-white p-6 rounded-xl shadow-md border border-gray-200 min-h-[180px]">
-        <h2 className="text-2xl font-semibold mb-4">Tomorrow's Prediction</h2>
-
-        {isLoading && (
-          <div className="flex justify-center items-center h-32">
-            <LoadingSpinner size="lg" text="Processing AI prediction..." />
-          </div>
-        )}
-
-        {!isLoading && prediction !== null && (
-          <div className="bg-green-50 border border-green-300 rounded-xl p-6 text-center">
-            <CheckCircle className="mx-auto w-10 h-10 text-green-600 mb-2" />
-            <p className="text-4xl font-bold text-green-800">{prediction}</p>
-            <p className="mt-1 text-green-700 font-medium">Should Produce</p>
-            <p className="text-green-600 text-sm">pieces</p>
-          </div>
-        )}
-
-        {!isLoading && prediction === null && (
-          <div className="flex flex-col items-center justify-center text-gray-400 h-32">
-            <Target className="w-16 h-16 mb-2" />
-            <p>Select input values to start prediction</p>
-          </div>
-        )}
-      </section>
+      {isLoading && <LoadingSpinner size="lg" text={t('loading', 'กำลังประมวลผล...')} />}
     </div>
   );
 };

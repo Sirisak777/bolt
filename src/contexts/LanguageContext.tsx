@@ -84,6 +84,14 @@ const resources = {
       edit: 'Edit',
       delete: 'Delete',
       confirm: 'Confirm',
+
+      chooseOption: 'Choose',
+      lastDayQuantity: 'Last Day Quantity',
+      enterNumber: 'Enter number',
+      dayOfWeek: 'Day of Week',
+      fillAllFields: 'Please fill in all fields',
+      quantityMustBeNumber: 'Last day quantity must be a number',
+      apiError: 'Error while calling API',
     }
   },
   th: {
@@ -151,6 +159,14 @@ const resources = {
       edit: 'แก้ไข',
       delete: 'ลบ',
       confirm: 'ยืนยัน',
+
+      chooseOption: 'เลือก',
+      lastDayQuantity: 'จำนวนที่ขายเมื่อวาน',
+      enterNumber: 'ใส่ตัวเลข',
+      dayOfWeek: 'วันของสัปดาห์',
+      fillAllFields: 'กรุณากรอกข้อมูลให้ครบถ้วน',
+      quantityMustBeNumber: 'จำนวนเมื่อวานต้องเป็นตัวเลข',
+      apiError: 'เกิดข้อผิดพลาดในการเรียก API',
     }
   }
 };
