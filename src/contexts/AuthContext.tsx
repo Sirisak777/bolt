@@ -57,20 +57,71 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
 
   const login = async (email: string, password: string): Promise<boolean> => {
     setState(prev => ({ ...prev, isLoading: true }));
-    
-    // Simulate API call
-    await new Promise(resolve => setTimeout(resolve, 1000));
-    
-    // Mock authentication - in real app, this would be an API call
-    if (email === 'demo@bakery.com' && password === 'demo123') {
+
+    try {
+      const res = await fetch('http://localhost:5000/login', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email, password }),
+      });
+
+      if (!res.ok) {
+        setState(prev => ({ ...prev, isLoading: false }));
+        return false;
+      }
+
+      const data = await res.json();
+
       const user: User = {
-        id: '1',
-        email,
-        name: 'Demo User',
-        shopName: 'Sweet Dreams Bakery',
+        id: data.user.id,
+        email: data.user.email,
+        name: data.user.name || '', // you can add name later
+        shopName: data.user.shopName || '',
+        createdAt: new Date(), // backend doesn't send this, so fake it
+      };
+
+      localStorage.setItem('bakery_user', JSON.stringify(user));
+      setState({
+        user,
+        isAuthenticated: true,
+        isLoading: false,
+      });
+
+      return true;
+    } catch (error) {
+      console.error('Login failed:', error);
+      setState(prev => ({ ...prev, isLoading: false }));
+      return false;
+    }
+  };
+
+  const register = async (data: RegisterData): Promise<boolean> => {
+    setState(prev => ({ ...prev, isLoading: true }));
+
+    try {
+      const res = await fetch('http://localhost:5000/register', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(data),
+      });
+
+      if (!res.ok) {
+        setState(prev => ({ ...prev, isLoading: false }));
+        return false;
+      }
+
+      // Assuming backend returns the new user object
+      const result = await res.json();
+
+      // If backend does not return user, you may need to adjust this
+      const user: User = {
+        id: result.user?.id?.toString() || Date.now().toString(),
+        email: data.email,
+        name: data.name,
+        shopName: data.shopName,
         createdAt: new Date(),
       };
-      
+
       localStorage.setItem('bakery_user', JSON.stringify(user));
       setState({
         user,
@@ -78,33 +129,11 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
         isLoading: false,
       });
       return true;
+    } catch (error) {
+      console.error('Register failed:', error);
+      setState(prev => ({ ...prev, isLoading: false }));
+      return false;
     }
-    
-    setState(prev => ({ ...prev, isLoading: false }));
-    return false;
-  };
-
-  const register = async (data: RegisterData): Promise<boolean> => {
-    setState(prev => ({ ...prev, isLoading: true }));
-    
-    // Simulate API call
-    await new Promise(resolve => setTimeout(resolve, 1500));
-    
-    const user: User = {
-      id: Date.now().toString(),
-      email: data.email,
-      name: data.name,
-      shopName: data.shopName,
-      createdAt: new Date(),
-    };
-    
-    localStorage.setItem('bakery_user', JSON.stringify(user));
-    setState({
-      user,
-      isAuthenticated: true,
-      isLoading: false,
-    });
-    return true;
   };
 
   const logout = () => {
