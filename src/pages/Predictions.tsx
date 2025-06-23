@@ -88,19 +88,23 @@ const Predictions: React.FC = () => {
   };
 
   return (
-    <div className="max-w-xl mx-auto mt-40 p-6 bg-white rounded-lg shadow-md space-y-6">
-      <div className="flex items-center gap-2 text-xl font-bold text-indigo-700">
-        <TrendingUp className="w-6 h-6" />
-        {t('predictSales', 'พยากรณ์ยอดผลิตขนมปัง')}
-      </div>
-
+   <div className="max-w-xl mx-auto mt-20 p-8 bg-white rounded-2xl shadow-xl dark:bg-slate-800 space-y-6">
+  <div className="flex flex-col items-center">
+    <TrendingUp className="w-8 h-8 text-indigo-600 mb-1" />
+    <h1 className="text-2xl font-bold text-indigo-700 dark:text-indigo-400">
+      {t('predictSales', 'พยากรณ์ยอดผลิตขนมปัง')}
+    </h1>
+    <p className="text-sm text-gray-500 dark:text-slate-400 mt-2 text-center">
+      {t('description', 'ใช้ข้อมูลการขายล่าสุดเพื่อช่วยให้ AI พยากรณ์จำนวนขนมปังที่ควรผลิตในแต่ละวัน')}
+    </p>
+  </div>
       <div className="space-y-4">
         <label className="block">
-          <span className="text-gray-700 font-medium">{t('selectProduct', 'ชื่อขนมปัง')}</span>
+          <span className="text-gray-700 font-medium dark:text-slate-300">{t('selectProduct', 'ชื่อขนมปัง')}</span>
           <select
             value={menuName}
             onChange={(e) => setMenuName(e.target.value)}
-            className="w-full mt-1 border px-3 py-2 rounded-md"
+            className="w-full mt-1 border px-3 py-2 rounded-md dark:bg-slate-700 dark:border-slate-600 dark:text-white"
           >
             <option value="">-- {t('chooseOption', 'เลือก')} --</option>
             {BREAD_OPTIONS.map((item) => (
@@ -110,22 +114,22 @@ const Predictions: React.FC = () => {
         </label>
 
         <label className="block">
-          <span className="text-gray-700 font-medium">{t('lastDayQuantity', 'จำนวนที่ขายเมื่อวาน')}</span>
+          <span className="text-gray-700 font-medium dark:text-slate-300">{t('lastDayQuantity', 'จำนวนที่ขายเมื่อวาน')}</span>
           <input
             type="number"
             value={lastQuantity}
             onChange={(e) => setLastQuantity(e.target.value)}
             placeholder={t('enterNumber', 'ใส่ตัวเลข')}
-            className="w-full mt-1 border px-3 py-2 rounded-md"
+            className="w-full mt-1 border px-3 py-2 rounded-md dark:bg-slate-700 dark:border-slate-600 dark:text-white"
           />
         </label>
 
         <label className="block">
-          <span className="text-gray-700 font-medium">{t('dayOfWeek', 'วันของสัปดาห์')}</span>
+          <span className="text-gray-700 font-medium dark:text-slate-300">{t('dayOfWeek', 'วันของสัปดาห์')}</span>
           <select
             value={dayOfWeek}
             onChange={(e) => setDayOfWeek(e.target.value)}
-            className="w-full mt-1 border px-3 py-2 rounded-md"
+            className="w-full mt-1 border px-3 py-2 rounded-md dark:bg-slate-700 dark:border-slate-600 dark:text-white"
           >
             <option value="">-- {t('chooseOption', 'เลือก')} --</option>
             {DAYS_OF_WEEK.map((day, index) => (
@@ -141,8 +145,7 @@ const Predictions: React.FC = () => {
         <button
           onClick={handlePredict}
           disabled={isLoading}
-          className="w-full bg-indigo-600 text-white py-2 rounded-md hover:bg-indigo-700 flex justify-center items-center gap-2"
-        >
+          className="w-full bg-indigo-600 text-white py-2 rounded-md hover:bg-indigo-700 flex justify-center items-center gap-2 transition-all duration-200 transform hover:scale-105 shadow-lg">
           {isLoading ? (
             <>
               <Loader2 className="w-5 h-5 animate-spin" />
@@ -158,13 +161,14 @@ const Predictions: React.FC = () => {
       </div>
 
       {prediction !== null && !isLoading && (
-        <div className="bg-green-50 border border-green-300 p-6 rounded-lg text-center">
-          <CheckCircle className="mx-auto text-green-600 w-8 h-8 mb-2" />
-          <p className="text-2xl font-bold text-green-800">
-            {t('shouldProduce', 'ควรผลิต')} {prediction} {t('pieces', 'ชิ้น')}
-          </p>
-        </div>
-      )}
+    <div className="bg-green-50 border border-green-300 p-6 rounded-lg text-center animate-bounce-soft">
+      <CheckCircle className="mx-auto text-green-600 w-8 h-8 mb-2" />
+      <p className="text-2xl font-bold text-green-800">
+        {t('shouldProduce', 'ควรผลิต')} {prediction} {t('pieces', 'ชิ้น')}
+      </p>
+    </div>
+  )}
+
 
       {isLoading && <LoadingSpinner size="lg" text={t('loading', 'กำลังประมวลผล...')} />}
     </div>

@@ -14,7 +14,7 @@ const Navigation: React.FC = () => {
   ];
 
   return (
-    <nav className="bg-white border-r border-amber-100 w-64 min-h-screen">
+    <nav className="bg-white dark:bg-slate-900 border-r border-amber-100 dark:border-slate-700 w-64 min-h-screen">
       <div className="p-6">
         <ul className="space-y-2">
           {navItems.map(({ to, icon: Icon, label }) => (
@@ -24,8 +24,8 @@ const Navigation: React.FC = () => {
                 className={({ isActive }) =>
                   `flex items-center space-x-3 px-4 py-3 rounded-xl transition-all duration-200 ${
                     isActive
-                      ? 'bg-gradient-to-r from-amber-50 to-orange-50 text-orange-700 shadow-sm border border-orange-200'
-                      : 'text-gray-600 hover:bg-gray-50 hover:text-gray-900'
+                      ? 'bg-gradient-to-r from-amber-50 to-orange-50 dark:from-slate-700 dark:to-slate-800 text-orange-700 dark:text-white shadow-sm border border-orange-200 dark:border-slate-600'
+                      : 'text-gray-600 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-slate-800 hover:text-gray-900 dark:hover:text-white'
                   }`
                 }
               >

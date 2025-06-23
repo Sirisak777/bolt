@@ -46,8 +46,8 @@ const LoginForm: React.FC<LoginFormProps> = ({ onSwitchToRegister }) => {
   return (
     <div className="w-full max-w-md">
       <div className="text-center mb-8">
-        <h2 className="text-3xl font-bold text-gray-900 mb-2">{t('login')}</h2>
-        <p className="text-gray-600">Welcome back to your bakery dashboard</p>
+        <h2 className="font-prompt text-3xl font-bold text-gray-900 mb-2">{t('login')}</h2>
+        <p className="font-prompt text-gray-600">Welcome back to your bakery dashboard</p>
       </div>
 
       <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">

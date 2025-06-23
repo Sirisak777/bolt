@@ -78,45 +78,41 @@ const History: React.FC = () => {
 
   return (
     <div className="space-y-6">
-      {/* Header */}
-      <div className="bg-white rounded-2xl p-6 shadow-sm border border-gray-100">
+      <div className="bg-white dark:bg-slate-800 rounded-2xl p-6 shadow-sm border border-gray-100 dark:border-slate-700">
         <div className="flex items-center justify-between">
           <div className="flex items-center space-x-3">
             <div className="bg-gradient-to-br from-purple-500 to-pink-600 p-2 rounded-xl">
               <HistoryIcon className="h-6 w-6 text-white" />
             </div>
             <div>
-              <h1 className="text-3xl font-bold text-gray-900">{t('predictionHistory')}</h1>
-              <p className="text-gray-600">View and analyze your past predictions</p>
+              <h1 className="text-3xl font-bold text-gray-900 dark:text-white">{t('predictionHistory')}</h1>
+              <p className="text-gray-600 dark:text-slate-300">View and analyze your past predictions</p>
             </div>
           </div>
-          
-          <button
-            onClick={handleDownloadCSV}
-            className="bg-gradient-to-r from-green-500 to-emerald-600 text-white py-2 px-4 rounded-lg font-medium hover:from-green-600 hover:to-emerald-700 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2 transition-all duration-200 flex items-center space-x-2"
-          >
+          <button onClick={handleDownloadCSV} className="bg-gradient-to-r from-green-500 to-emerald-600 text-white py-2 px-4 rounded-lg font-medium hover:from-green-600 hover:to-emerald-700 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2 transition-all duration-200 flex items-center space-x-2">
             <Download className="h-4 w-4" />
             <span>{t('downloadCSV')}</span>
           </button>
         </div>
       </div>
 
+
       {/* Filters */}
-      <div className="bg-white rounded-2xl p-6 shadow-sm border border-gray-100">
+      <div className="bg-white dark:bg-slate-800 rounded-2xl p-6 shadow-sm border border-gray-100 dark:border-slate-700">
         <div className="flex items-center space-x-3 mb-4">
-          <Filter className="h-5 w-5 text-gray-600" />
-          <h2 className="text-lg font-semibold text-gray-900">Filters</h2>
+          <Filter className="h-5 w-5 text-gray-600 dark:text-white" />
+          <h2 className="text-lg font-semibold text-gray-900 dark:text-white">Filters</h2>
         </div>
         
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">
+            <label className="block text-sm font-medium text-gray-700 mb-2 dark:text-slate-300">
               {t('product')}
             </label>
             <select
               value={selectedProduct}
               onChange={(e) => setSelectedProduct(e.target.value)}
-              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent"
+              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent dark:bg-slate-700 dark:border-none dark:text-white"
             >
               <option value="">All Products</option>
               {mockProducts.map((product) => (
@@ -128,7 +124,7 @@ const History: React.FC = () => {
           </div>
           
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">
+            <label className="block text-sm font-medium text-gray-700 mb-2 dark:text-slate-300">
               {t('date')}
             </label>
             <div className="relative">
@@ -137,7 +133,7 @@ const History: React.FC = () => {
                 type="date"
                 value={dateFilter}
                 onChange={(e) => setDateFilter(e.target.value)}
-                className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent"
+                className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent dark:bg-slate-700 dark:border-none dark:text-white"
               />
             </div>
           </div>
@@ -146,38 +142,38 @@ const History: React.FC = () => {
 
       {/* Statistics Cards */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-        <div className="bg-white rounded-2xl p-6 shadow-sm border border-gray-100">
-          <h3 className="text-lg font-semibold text-gray-900 mb-2">Total Predictions</h3>
+        <div className="bg-white rounded-2xl p-6 shadow-sm border border-gray-100 dark:bg-slate-800 dark:border-slate-700">
+          <h3 className="text-lg font-semibold text-gray-900 mb-2 dark:text-white">Total Predictions</h3>
           <p className="text-3xl font-bold text-purple-600">{filteredPredictions.length}</p>
-          <p className="text-sm text-gray-600">In selected period</p>
+          <p className="text-sm text-gray-600 dark:text-slate-300">In selected period</p>
         </div>
         
-        <div className="bg-white rounded-2xl p-6 shadow-sm border border-gray-100">
-          <h3 className="text-lg font-semibold text-gray-900 mb-2">Average Accuracy</h3>
+        <div className="bg-white rounded-2xl p-6 shadow-sm border border-gray-100 dark:bg-slate-800 dark:border-slate-700">
+          <h3 className="text-lg font-semibold text-gray-900 mb-2 dark:text-white">Average Accuracy</h3>
           <p className="text-3xl font-bold text-green-600">
             {filteredPredictions.length > 0 
               ? Math.round(filteredPredictions.reduce((sum, pred) => sum + pred.confidence, 0) / filteredPredictions.length)
               : 0}%
           </p>
-          <p className="text-sm text-gray-600">Prediction confidence</p>
+          <p className="text-sm text-gray-600 dark:text-slate-300">Prediction confidence</p>
         </div>
         
-        <div className="bg-white rounded-2xl p-6 shadow-sm border border-gray-100">
-          <h3 className="text-lg font-semibold text-gray-900 mb-2">Best Product</h3>
+        <div className="bg-white rounded-2xl p-6 shadow-sm border border-gray-100 dark:bg-slate-800 dark:border-slate-700">
+          <h3 className="text-lg font-semibold text-gray-900 mb-2 dark:text-white">Best Product</h3>
           <p className="text-lg font-bold text-blue-600">Croissant</p>
-          <p className="text-sm text-gray-600">Highest accuracy rate</p>
+          <p className="text-sm text-gray-600 dark:text-slate-300">Highest accuracy rate</p>
         </div>
       </div>
 
       {/* Predictions Table */}
-      <div className="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
-        <div className="px-6 py-4 border-b border-gray-200">
-          <h2 className="text-lg font-semibold text-gray-900">Prediction Records</h2>
+      <div className="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden dark:bg-slate-800 dark:border-none">
+        <div className="px-6 py-4 border-b border-gray-200 dark:border-slate-700">
+          <h2 className="text-lg font-semibold text-gray-900 dark:text-white">Prediction Records</h2>
         </div>
         
         <div className="overflow-x-auto">
           <table className="w-full">
-            <thead className="bg-gray-50">
+            <thead className="bg-gray-50 dark:bg-slate-800 ">
               <tr>
                 <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                   {t('date')}
@@ -199,7 +195,7 @@ const History: React.FC = () => {
                 </th>
               </tr>
             </thead>
-            <tbody className="bg-white divide-y divide-gray-200">
+            <tbody className="bg-white divide-y divide-gray-200 dark:bg-slate-800 dark:divide-slate-700">
               {filteredPredictions.map((prediction) => {
                 const product = mockProducts.find(p => p.id === prediction.productId);
                 const productName = language === 'th' ? product?.nameTh : product?.nameEn;
@@ -208,18 +204,18 @@ const History: React.FC = () => {
                   : null;
 
                 return (
-                  <tr key={prediction.id} className="hover:bg-gray-50 transition-colors">
-                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                  <tr key={prediction.id} className="hover:bg-gray-50 transition-colors dark:hover:bg-slate-600">
+                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900 dark:text-white">
                       {format(prediction.date, 'MMM dd, yyyy')}
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap">
-                      <div className="text-sm font-medium text-gray-900">{productName}</div>
+                      <div className="text-sm font-medium text-gray-900 dark:text-white">{productName}</div>
                       <div className="text-sm text-gray-500 capitalize">{product?.category}</div>
                     </td>
-                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900 dark:text-slate-300">
                       {prediction.predictedQuantity} {t('pieces')}
                     </td>
-                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900 dark:text-slate-300">
                       {prediction.actualQuantity ? `${prediction.actualQuantity} ${t('pieces')}` : '-'}
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap">
