@@ -5,7 +5,6 @@ import { LanguageProvider } from './contexts/LanguageContext';
 import Layout from './components/layout/Layout';
 import LandingPage from './pages/LandingPage';
 import AuthPage from './pages/AuthPage';
-import Dashboard from './pages/Dashboard';
 import Predictions from './pages/Predictions';
 import History from './pages/History';
 import Settings from './pages/Settings';
@@ -41,10 +40,10 @@ const AppRoutes: React.FC = () => {
       {/* Landing Page - Public */}
       <Route path="/" element={<LandingPage />} />
       
-      {/* Auth Page - Redirect to dashboard if already authenticated */}
+      {/* Auth Page - Redirect to Predictions if already authenticated */}
       <Route 
         path="/auth" 
-        element={isAuthenticated ? <Navigate to="/app/dashboard" replace /> : <AuthPage />} 
+        element={isAuthenticated ? <Navigate to="/app/predictions" replace /> : <AuthPage />} 
       />
       
       {/* Protected App Routes */}
@@ -56,8 +55,7 @@ const AppRoutes: React.FC = () => {
           </ProtectedRoute>
         }
       >
-        <Route index element={<Navigate to="/app/dashboard" replace />} />
-        <Route path="dashboard" element={<Dashboard />} />
+        <Route index element={<Navigate to="/app/predictions" replace />} />
         <Route path="predictions" element={<Predictions />} />
         <Route path="history" element={<History />} />
         <Route path="settings" element={<Settings />} />
