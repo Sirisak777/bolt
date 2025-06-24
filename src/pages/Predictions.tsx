@@ -109,6 +109,7 @@ const Predictions: React.FC = () => {
   };
 
   return (
+<<<<<<< HEAD
     <div className="max-w-xl mx-auto mt-20 p-8 bg-white rounded-2xl shadow-xl dark:bg-slate-800 space-y-6">
       <div className="flex flex-col items-center">
         <TrendingUp className="w-8 h-8 text-indigo-600 mb-1" />
@@ -120,6 +121,18 @@ const Predictions: React.FC = () => {
         </p>
       </div>
 
+=======
+   <div className="max-w-xl mx-auto mt-20 p-8 bg-white rounded-2xl shadow-xl dark:bg-slate-800 space-y-6">
+  <div className="flex flex-col items-center">
+    <TrendingUp className="w-8 h-8 text-indigo-600 mb-1" />
+    <h1 className="text-2xl font-bold text-indigo-700 dark:text-indigo-400">
+      {t('predictSales', 'พยากรณ์ยอดผลิตขนมปัง')}
+    </h1>
+    <p className="text-sm text-gray-500 dark:text-slate-400 mt-2 text-center">
+      {t('description', 'ใช้ข้อมูลการขายล่าสุดเพื่อช่วยให้ AI พยากรณ์จำนวนขนมปังที่ควรผลิตในแต่ละวัน')}
+    </p>
+  </div>
+>>>>>>> 4acf3ef5136556ffd4c52ae0d7708726fceaae7f
       <div className="space-y-4">
         <label className="block">
           <span className="text-gray-700 font-medium dark:text-slate-300">{t('selectProduct', 'ชื่อขนมปัง')}</span>
@@ -183,6 +196,7 @@ const Predictions: React.FC = () => {
       </div>
 
       {prediction !== null && !isLoading && (
+<<<<<<< HEAD
         <div className="bg-green-50 border border-green-300 p-6 rounded-lg text-center animate-bounce-soft">
           <CheckCircle className="mx-auto text-green-600 w-8 h-8 mb-2" />
           <p className="text-2xl font-bold text-green-800">
@@ -190,6 +204,16 @@ const Predictions: React.FC = () => {
           </p>
         </div>
       )}
+=======
+    <div className="bg-green-50 border border-green-300 p-6 rounded-lg text-center animate-bounce-soft">
+      <CheckCircle className="mx-auto text-green-600 w-8 h-8 mb-2" />
+      <p className="text-2xl font-bold text-green-800">
+        {t('shouldProduce', 'ควรผลิต')} {prediction} {t('pieces', 'ชิ้น')}
+      </p>
+    </div>
+  )}
+
+>>>>>>> 4acf3ef5136556ffd4c52ae0d7708726fceaae7f
 
       {isLoading && <LoadingSpinner size="lg" text={t('loading', 'กำลังประมวลผล...')} />}
     </div>

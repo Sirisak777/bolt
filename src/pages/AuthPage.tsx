@@ -7,7 +7,8 @@ const AuthPage: React.FC = () => {
   const [isLogin, setIsLogin] = useState(true);
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-amber-50 via-orange-50 to-yellow-50 flex items-center justify-center p-4">
+<div className="min-h-screen bg-[url('/images/bread.jpg')] bg-cover bg-center flex items-center justify-center p-4">
+
       {/* Background decoration */}
       <div className="absolute inset-0 overflow-hidden">
         <div className="absolute top-1/4 left-1/4 w-32 h-32 bg-orange-200 rounded-full opacity-20 animate-pulse"></div>
@@ -17,40 +18,54 @@ const AuthPage: React.FC = () => {
 
       <div className="relative z-10 w-full max-w-6xl flex rounded-3xl shadow-2xl overflow-hidden bg-white">
         {/* Left side - Branding */}
-        <div className="hidden lg:flex lg:w-1/2 bg-gradient-to-br from-orange-500 via-amber-500 to-yellow-400 p-12 flex-col justify-center relative">
-          <div className="absolute inset-0 bg-black opacity-10"></div>
-          <div className="relative z-10">
-            <div className="flex items-center space-x-3 mb-8">
-              <div className="bg-white bg-opacity-20 p-3 rounded-2xl">
-                <Croissant className="h-8 w-8 text-white" />
-              </div>
-              <h1 className="text-3xl font-bold text-white">BakeryAI</h1>
-            </div>
-            
-            <h2 className="text-4xl font-bold text-white mb-6 leading-tight">
-              Predict Your Bakery Sales with AI
-            </h2>
-            
-            <p className="text-xl text-white opacity-90 mb-8 leading-relaxed">
-              Reduce waste, increase profits, and optimize your production with our intelligent sales forecasting system.
-            </p>
-            
-            <div className="space-y-4">
-              <div className="flex items-center space-x-3 text-white">
-                <div className="w-2 h-2 bg-white rounded-full"></div>
-                <span>AI-powered sales predictions</span>
-              </div>
-              <div className="flex items-center space-x-3 text-white">
-                <div className="w-2 h-2 bg-white rounded-full"></div>
-                <span>Reduce food waste by up to 30%</span>
-              </div>
-              <div className="flex items-center space-x-3 text-white">
-                <div className="w-2 h-2 bg-white rounded-full"></div>
-                <span>Optimize daily production planning</span>
-              </div>
-            </div>
-          </div>
-        </div>
+       {/* Left side - Branding */}
+<div className="flex lg:w-1/2 bg-gradient-to-br from-orange-500 via-amber-500 to-yellow-400 p-12 flex-col justify-center relative">
+  <div className="absolute inset-0 bg-black opacity-10"></div>
+  <div className="relative z-10">
+
+    {/* 🔄 Logo ที่ใช้ภาพแทน icon + text */}
+    <div className="flex items-center space-x-3 mb-8">
+        <img 
+          src="/images/nompangmaeo.png" 
+          alt="Nom Pung Meaw Logo" 
+          className="h-12 w-12 object-contain rounded-lg"
+        />
+      <div>
+        <h1 className="text-2xl font-anuphan text-white font-bold leading-tight">
+          หนมปังแมว
+        </h1>
+        <p className="text-xs text-white text-opacity-80 font-light">
+          Nom Pang Maeo
+        </p>
+      </div>
+    </div>
+
+    <h2 className="font-pacifico text-4xl font-bold text-white mb-6 leading-tight">
+      Nom Pang Maeo
+    </h2>
+
+    <p className="text-xl text-white opacity-90 mb-8 leading-relaxed">
+      Reduce waste, increase profits, and optimize your production with our intelligent sales forecasting system.
+    </p>
+
+    <div className="space-y-4">
+      <div className="flex items-center space-x-3 text-white">
+        <div className="w-2 h-2 bg-white rounded-full"></div>
+        <span>AI-powered sales predictions</span>
+      </div>
+      <div className="flex items-center space-x-3 text-white">
+        <div className="w-2 h-2 bg-white rounded-full"></div>
+        <span>Reduce food waste by up to 30%</span>
+      </div>
+      <div className="flex items-center space-x-3 text-white">
+        <div className="w-2 h-2 bg-white rounded-full"></div>
+        <span>Optimize daily production planning</span>
+      </div>
+    </div>
+    
+  </div>
+</div>
+
 
         {/* Right side - Auth forms */}
         <div className="w-full lg:w-1/2 p-12 flex items-center justify-center">
